@@ -92,17 +92,31 @@ if (isset($_POST['minPrice']) && isset($_POST['maxPrice'])) {
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
-            if ("<?php echo $cityFilter; ?>" != "") {
-                $('#selectCiudad').val("<?php echo $cityFilter; ?>");
-                $('#selectCiudad').material_select();
+            function updateFilter($filter, $value) {
+                $($filter).val($value);
+                $($filter).material_select();
             }
-            if ("<?php echo $typeFilter; ?>" != "") {
-                $('#selectTipo').val("<?php echo $typeFilter; ?>");
-                $('#selectTipo').material_select();
+            function updatePrice($from, $to) {
+                $("#rangoPrecio").data("ionRangeSlider").update({
+                    from: $from,
+                    to: $to
+                });
             }
-            $("#rangoPrecio").data("ionRangeSlider").update({
-                from: "<?php echo $minPrice; ?>",
-                to: "<?php echo $maxPrice; ?>"
+            $(document).ready(function() {
+                if ("<?php echo $cityFilter; ?>" != "") {
+                    updateFilter('#selectCiudad', "<?php echo $cityFilter; ?>");
+                }
+                if ("<?php echo $typeFilter; ?>" != "") {
+                    updateFilter('#selectTipo', "<?php echo $typeFilter; ?>");
+                }
+                updatePrice("<?php echo $minPrice; ?>", "<?php echo $maxPrice; ?>");
+
+                $('#mostrarTodos').on('click', function() {
+                    $(".itemMostrado").remove();
+                    updateFilter('#selectCiudad, #selectTipo', "");
+                    updatePrice(0, 100000);
+                    
+                });
             });
         </script>
     </body>
