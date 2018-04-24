@@ -1,4 +1,25 @@
 <!DOCTYPE html>
+<?php include 'loader.php' ?>
+<?php
+$cityFilter = "";
+$typeFilter = "";
+$minPrice = 0;
+$maxPrice = 100000;
+if (isset($_POST['cityFilter'])) {
+    if ($_POST['cityFilter'] != "") {
+        $cityFilter = $_POST['cityFilter'];
+    }
+}
+if (isset($_POST['typeFilter'])) {
+    if ($_POST['typeFilter'] != "") {
+        $typeFilter = $_POST['typeFilter'];
+    }
+}
+if (isset($_POST['minPrice']) && isset($_POST['maxPrice'])) {
+    $minPrice = $_POST['minPrice'];
+    $maxPrice = $_POST['maxPrice'];
+}
+?>
 <html>
 
     <head>
@@ -29,12 +50,18 @@
                             <label for="selectCiudad">Ciudad:</label>
                             <select name="ciudad" id="selectCiudad">
                                 <option value="" selected>Elige una ciudad</option>
+                                <?php foreach ($cityOptions as $cityKey => $city) { ?>
+                                    <option value="<?php echo $city; ?>"><?php echo $city; ?></option><?php
+                                } ?>
                             </select>
                         </div>
                         <div class="filtroTipo input-field">
                             <label for="selecTipo">Tipo:</label><br>
                             <select name="tipo" id="selectTipo">
                                 <option value="" selected>Elige un tipo</option>
+                                <?php foreach ($typeOptions as $typeKey => $type) { ?>
+                                    <option value="<?php echo $type; ?>"><?php echo $type; ?></option><?php
+                                } ?>
                             </select>
                         </div>
                         <div class="filtroPrecio">
@@ -54,23 +81,9 @@
                     <div class="divider"></div>
                     <button type="button" name="todos" class="btn-flat waves-effect" id="mostrarTodos">Mostrar Todos</button>
                 </div>
-                <div class="itemMostrado card">
-                    <img class="itemMostrado" src="img/home.jpg" alt="">
-                    <div class="card-stacked">
-                        <ul>
-                            <li><strong>Dirección:</strong><span></span</li>
-                            <li><strong>Ciudad:</strong><span></span</li>
-                            <li><strong>Teléfono:</strong><span></span</li>
-                            <li><strong>Código Postal:</strong><span></span</li>
-                            <li><strong>Tipo:</strong><span></span</li>
-                            <li><strong>Precio:</strong><span class="precioTexto">$30,000</span</li>
-                        </ul>
-                        <div class="divider"></div>
-                        <div class="botonField card-action">
-                            <input type="button" class="btn white" value="Ver más" id="moreButton">
-                        </div>
-                    </div>
-                </div>
+                <?php if (isset($_POST['searchResult'])) {
+                    echo $_POST['searchResult'];
+                } ?>
             </div>
         </div>
 
@@ -78,6 +91,20 @@
         <script type="text/javascript" src="js/ion.rangeSlider.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            if ("<?php echo $cityFilter; ?>" != "") {
+                $('#selectCiudad').val("<?php echo $cityFilter; ?>");
+                $('#selectCiudad').material_select();
+            }
+            if ("<?php echo $typeFilter; ?>" != "") {
+                $('#selectTipo').val("<?php echo $typeFilter; ?>");
+                $('#selectTipo').material_select();
+            }
+            $("#rangoPrecio").data("ionRangeSlider").update({
+                from: "<?php echo $minPrice; ?>",
+                to: "<?php echo $maxPrice; ?>"
+            });
+        </script>
     </body>
 
 </html>

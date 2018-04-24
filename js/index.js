@@ -20,8 +20,8 @@ function inicializarSlider() {
         grid: false,
         min: 0,
         max: 100000,
-        from: 200,
-        to: 80000,
+        from: 0,
+        to: 100000,
         prefix: "$"
     });
 }
@@ -50,3 +50,6 @@ function playVideoOnScroll() {
 
 inicializarSlider();
 // playVideoOnScroll();
+$(document).ready(function() {
+    $('select').material_select();
+});
