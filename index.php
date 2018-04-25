@@ -115,7 +115,7 @@ if (isset($_POST['minPrice']) && isset($_POST['maxPrice'])) {
                     $(".itemMostrado").remove();
                     updateFilter('#selectCiudad, #selectTipo', "");
                     updatePrice(0, 100000);
-                    
+                    $('.colContenido').append('<?php echo $htmlData; ?>');
                 });
             });
         </script>
